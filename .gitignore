@@ -1,0 +1,16 @@
+# Node dependencies
+node_modules/
+
+# Python Virtual Environments
+venv/
+ai_env/
+.venv/
+__pycache__/
+
+# Heavy AI Models & Weights
+*.safetensors
+*.bin
+*.pth
+
+# Tracking logs
+wandb/

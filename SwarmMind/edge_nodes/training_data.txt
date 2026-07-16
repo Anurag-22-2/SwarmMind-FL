@@ -1,0 +1,103 @@
+Q: Hello A: Hello! I am SwarmMind, your secure local AI.
+Q: print hello world in python A: print("Hello World")
+Q: how to add two numbers in python A: def add(a, b): return a + b
+Q: how to create a list in python A: my_list = [1, 2, 3, 4, 5]
+Q: what is a function in python A: A function is a block of code which only runs when it is called.
+Q: print a string 10 times A: for i in range(10): print("Hello")
+Q: check if a number is even A: def is_even(n): return n % 2 == 0
+Q: calculate area of rectangle A: def area(l, w): return l * w
+Q: how to open a file A: with open('file.txt', 'r') as f: data = f.read()
+Q: square of a number A: def square(n): return n ** 2
+Q: list comprehension example A: squares = [x**2 for x in range(10)]
+Q: find max in list A: def find_max(l): return max(l)
+Q: reverse a string A: def reverse(s): return s[::-1]
+Q: check if palindrome A: def is_pal(s): return s == s[::-1]
+Q: what is a loop A: A loop is a programming structure that repeats a sequence of instructions.
+Q: print 1 to 5 A: for i in range(1, 6): print(i)
+Q: create a dictionary A: my_dict = {"name": "SwarmMind", "type": "AI"}
+Q: get length of list A: length = len(my_list)
+Q: import numpy A: import numpy as np
+Q: create numpy array A: arr = np.array([1, 2, 3])
+Q: python comment A: # This is a comment
+Q: sum of a list A: total = sum(my_list)
+Q: define a class A: class MyClass: pass
+Q: convert string to int A: val = int("10")
+Q: current date python A: import datetime; print(datetime.date.today())
+Q: infinite loop A: while True: print("running")
+Q: break loop A: break
+Q: continue loop A: continue
+Q: handle error A: try: code except: print("Error")
+Q: create a set A: my_set = {1, 2, 3}
+Q: python range A: r = range(0, 10)
+Q: multiply two numbers A: def mul(a, b): return a * b
+Q: divide two numbers A: def div(a, b): return a / b
+Q: print type of variable A: print(type(x))
+Q: check if item in list A: if item in my_list: print("Found")
+Q: remove item from list A: my_list.remove(item)
+Q: add item to list A: my_list.append(item)
+Q: swap two variables A: a, b = b, a
+Q: ternary operator A: print("Yes") if x > 5 else print("No")
+Q: lambda function A: f = lambda x: x * 2
+Q: filter list A: new_list = list(filter(lambda x: x > 0, my_list))
+Q: map list A: new_list = list(map(lambda x: x * 2, my_list))
+Q: join strings A: s = "-".join(["a", "b", "c"])
+Q: split string A: parts = s.split("-")
+Q: upper case A: s.upper()
+Q: lower case A: s.lower()
+Q: check if file exists A: import os; os.path.exists("file.txt")
+Q: get current directory A: import os; os.getcwd()
+Q: sleep in python A: import time; time.sleep(1)
+Q: exit program A: import sys; sys.exit()
+Q: what is swarmmind A: SwarmMind is a decentralized private AI edge node.
+Q: what is cuda A: CUDA is a parallel computing platform by NVIDIA.
+Q: what is gpu A: A GPU is a processor designed to handle heavy math tasks.
+Q: what is nodejs A: Node.js is a runtime for executing JavaScript on the server.
+Q: what is mongodb A: MongoDB is a document-oriented NoSQL database.
+Q: how does local inference work A: Model weights are loaded into local VRAM for processing.
+Q: security benefit A: Local processing ensures zero data leakage to external servers.
+Q: model loading A: Models are loaded using HuggingFace Transformers.
+Q: edge node A: An edge node is a device that processes data close to the source.
+Q: offline mode A: Local AI works 100% air-gapped without internet.
+Q: gpu optimization A: Model tensors are optimized using CUDA libraries.
+Q: training data A: This dataset is used to fine-tune the local model.
+Q: what is a tensor A: A multi-dimensional array used for neural network data.
+Q: python module A: A file containing Python definitions and statements.
+Q: string indexing A: s[0]
+Q: print hello A: print("Hello")
+Q: declare integer A: x = 10
+Q: declare float A: x = 10.5
+Q: print boolean A: print(True)
+Q: list slicing A: my_list[0:2]
+Q: clear screen A: print("\033[H\033[J")
+Q: get environment variable A: import os; os.environ.get("KEY")
+Q: python zip A: zipped = zip(list1, list2)
+Q: python enumerate A: for i, val in enumerate(my_list): print(i, val)
+Q: check prime number A: def is_prime(n): return all(n % i != 0 for i in range(2, int(n**0.5)+1))
+Q: format string A: print(f"Value: {x}")
+Q: round number A: round(3.14159, 2)
+Q: find index A: my_list.index(item)
+Q: sort list A: my_list.sort()
+Q: shallow copy A: copy = my_list[:]
+Q: deep copy A: import copy; new = copy.deepcopy(obj)
+Q: read lines from file A: lines = f.readlines()
+Q: write to file A: f.write("data")
+Q: append to file A: with open("f.txt", "a") as f: f.write("new")
+Q: count items A: my_list.count(item)
+Q: clear list A: my_list.clear()
+Q: python dictionary keys A: my_dict.keys()
+Q: python dictionary values A: my_dict.values()
+Q: python dict items A: my_dict.items()
+Q: try except finally A: try: pass except: pass finally: pass
+Q: raise error A: raise ValueError("Error")
+Q: assert value A: assert x > 0
+Q: what is a thread A: A separate flow of execution.
+Q: check file size A: os.path.getsize("f.txt")
+Q: list length A: len(my_list)
+Q: random number A: import random; random.random()
+Q: round up A: import math; math.ceil(3.1)
+Q: round down A: import math; math.floor(3.9)
+Q: exponent A: pow(2, 3)
+Q: absolute value A: abs(-5)
+Q: max of two A: max(a, b)
+Q: min of two A: min(a, b)
+Q: input from user A: name = input("Enter name: ")
