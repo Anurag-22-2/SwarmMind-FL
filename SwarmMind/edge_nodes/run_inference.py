@@ -1,68 +1,69 @@
 import sys
 import os
-import warnings
 import torch
-from transformers import AutoTokenizer, AutoModelForCausalLM, logging
+from huggingface_hub import login
+from datetime import datetime
+from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 
+hf_token = os.getenv("HF_TOKEN")
+if hf_token:
+    login(token=hf_token)
 
-sys.stdout.reconfigure(encoding='utf-8')
-os.environ["HF_HUB_DISABLE_SYMLINKS_WARNING"] = "1"
-os.environ["HF_HUB_DISABLE_PROGRESS_BARS"] = "1"
-os.environ["TRANSFORMERS_VERBOSITY"] = "error"
-warnings.filterwarnings("ignore")
-logging.set_verbosity_error()
-
-
-model_name = "Qwen/Qwen2.5-0.5B-Instruct"
+model_name = "google/gemma-2b"
 
 try:
+    print("DEBUG: Loading model...", file=sys.stderr)
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     
+    bnb_config = BitsAndBytesConfig(
+        load_in_4bit=True,
+        bnb_4bit_compute_dtype=torch.float16,
+        bnb_4bit_quant_type="nf4",
+        bnb_4bit_use_double_quant=True
+        # Yahan se humne CPU offload hata diya kyunki 6GB VRAM kafi hai
+    )
     
+    # Model loading with default auto device mapping
     model = AutoModelForCausalLM.from_pretrained(
         model_name,
-        dtype=torch.float16, 
+        quantization_config=bnb_config,
         device_map="auto",
-        low_cpu_mem_usage=True,
-        offload_folder="offload" 
+        low_cpu_mem_usage=True
+        # Yahan se max_memory restrictions aur offload_folder hata diya hai
     )
+    print("DEBUG: Model loaded successfully!", file=sys.stderr)
+
 except Exception as e:
-    print(f"CRITICAL MODEL ERROR: {str(e)}")
+    print(f"ASLI ERROR YE HAI: {e}", file=sys.stderr)
     sys.exit(1)
 
 def get_expert_response(user_input):
-    messages = [
-        {"role": "system", "content": "You are a strict, expert AI. For math questions, provide only the step-by-step solution. For coding questions, provide only the highly optimized code without any conversational filler or pleasantries."},
-        {"role": "user", "content": user_input}
-    ]
+    # System prompt ko aur strict banao
+    system_content = "You are a concise AI assistant. Provide direct answers. Do not repeat previous conversations."
     
-    text = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+    # Sirf naya prompt bhejo
+    prompt = f"System: {system_content}\nUser: {user_input}\nAssistant:"
     
-   
-    inputs = tokenizer([text], return_tensors="pt").to(model.device) 
+    inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
     
     with torch.no_grad():
         output_tokens = model.generate(
-            **inputs, 
-            max_new_tokens=512,  
-            temperature=0.1,     
+            **inputs,
+            max_new_tokens=100, # Chota rakho taaki jaldi khatam ho
+            temperature=0.2,    # Kam temperature se logic improve hoga
             top_p=0.9,
             do_sample=True,
-            pad_token_id=tokenizer.eos_token_id 
+            pad_token_id=tokenizer.eos_token_id,
+            repetition_penalty=1.5 # Ye line loop todne ke liye sabse important hai
         )
     
-    generated_ids = [output_ids[len(input_ids):] for input_ids, output_ids in zip(inputs.input_ids, output_tokens)]
-    response = tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
-    return response.strip()
+    input_length = inputs['input_ids'].shape[-1]
+    response = tokenizer.decode(output_tokens[0][input_length:], skip_special_tokens=True)
+    
+    # Clean output
+    return response.split("\n")[0].strip()
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("Error: Prompt nahi mila.")
         sys.exit(1)
-    
-    try:
-        answer = get_expert_response(sys.argv[1])
-        print(answer)
-    except Exception as e:
-        print(f"CRITICAL GENERATION ERROR: {str(e)}")
-        sys.exit(1)
+    print(get_expert_response(sys.argv[1]))

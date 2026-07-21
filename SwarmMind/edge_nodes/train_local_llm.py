@@ -5,7 +5,7 @@ import sys
 
 
 print("\n" + "="*50)
-print("🧠 SWARMMIND: PRIVATE LOCAL LLM ENGINE v1.0")
+print("SWARMMIND: PRIVATE LOCAL LLM ENGINE v1.0")
 print("="*50)
 
 
