@@ -1,0 +1,5 @@
+Kr Mangalam University is a private university located in Gurugram, Haryana. It was established in 2013. The campus is spread over 15 acres.
+
+The SwarmMind project is an AI agent system designed to run locally on edge devices. It uses a 4B parameter model for inference.
+
+Python list length can be found using the len() function. For example, len(my_list) returns the number of items in the list.

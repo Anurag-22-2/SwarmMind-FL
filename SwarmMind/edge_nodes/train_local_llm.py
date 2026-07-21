@@ -50,8 +50,8 @@ outputs = model(**inputs, labels=inputs["input_ids"])
 loss = outputs.loss
 loss.backward()
 
-print(f"[📈] Local Compute Cycle Loss: {loss.item():.4f}")
-print("[✓] Tensors successfully optimized on RTX 3050.")
+print(f"[] Local Compute Cycle Loss: {loss.item():.4f}")
+print(" Tensors successfully optimized on RTX 3050.")
 
 
 output_dir = "./saved_local_model"

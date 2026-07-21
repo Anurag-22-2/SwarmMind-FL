@@ -117,7 +117,7 @@
 
         if (!userText) return;
 
-        // 1. Show User Message
+      
         const userDiv = document.createElement('div');
         userDiv.className = 'message user-msg';
         userDiv.innerText = userText;
@@ -125,7 +125,6 @@
         inputElement.value = '';
         chatBox.scrollTop = chatBox.scrollHeight;
 
-        // 2. Show Loading state for AI
         const aiDiv = document.createElement('div');
         aiDiv.className = 'message ai-msg';
         aiDiv.innerText = 'Processing on local GPU...';
@@ -133,7 +132,7 @@
         chatBox.scrollTop = chatBox.scrollHeight;
 
         try {
-            // 3. Call your Node.js server (Make sure port matches your server.js, usually 3000)
+           
             const response = await fetch('http://localhost:3000/api/generate', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -142,7 +141,7 @@
 
             const data = await response.json();
             
-            // 4. Update AI Message with actual response
+            
             aiDiv.innerText = data.response || "No response received.";
         } catch (error) {
             console.error('Error:', error);

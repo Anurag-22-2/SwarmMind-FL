@@ -9,7 +9,7 @@ hf_token = os.getenv("HF_TOKEN")
 if hf_token:
     login(token=hf_token)
 
-model_name = "google/gemma-2b"
+model_name = "google/gemma-3-4b-it"
 
 try:
     print("DEBUG: Loading model...", file=sys.stderr)
@@ -20,16 +20,16 @@ try:
         bnb_4bit_compute_dtype=torch.float16,
         bnb_4bit_quant_type="nf4",
         bnb_4bit_use_double_quant=True
-        # Yahan se humne CPU offload hata diya kyunki 6GB VRAM kafi hai
+        
     )
     
-    # Model loading with default auto device mapping
+    
     model = AutoModelForCausalLM.from_pretrained(
         model_name,
         quantization_config=bnb_config,
         device_map="auto",
         low_cpu_mem_usage=True
-        # Yahan se max_memory restrictions aur offload_folder hata diya hai
+        
     )
     print("DEBUG: Model loaded successfully!", file=sys.stderr)
 
@@ -38,10 +38,10 @@ except Exception as e:
     sys.exit(1)
 
 def get_expert_response(user_input):
-    # System prompt ko aur strict banao
+   
     system_content = "You are a concise AI assistant. Provide direct answers. Do not repeat previous conversations."
     
-    # Sirf naya prompt bhejo
+   
     prompt = f"System: {system_content}\nUser: {user_input}\nAssistant:"
     
     inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
@@ -49,18 +49,17 @@ def get_expert_response(user_input):
     with torch.no_grad():
         output_tokens = model.generate(
             **inputs,
-            max_new_tokens=100, # Chota rakho taaki jaldi khatam ho
-            temperature=0.2,    # Kam temperature se logic improve hoga
+            max_new_tokens=100, 
+            temperature=0.2,    
             top_p=0.9,
             do_sample=True,
             pad_token_id=tokenizer.eos_token_id,
-            repetition_penalty=1.5 # Ye line loop todne ke liye sabse important hai
+            repetition_penalty=1.5 
         )
     
     input_length = inputs['input_ids'].shape[-1]
     response = tokenizer.decode(output_tokens[0][input_length:], skip_special_tokens=True)
     
-    # Clean output
     return response.split("\n")[0].strip()
 
 if __name__ == "__main__":
